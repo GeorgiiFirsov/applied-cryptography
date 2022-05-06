@@ -163,6 +163,36 @@ $p,a,b$); г) вычисление $H^{(n)}$ требует времени $O(\l
 
 \mysection{Задание 10}
 
+\begin{enumerate}
+    \item \textit{Некорректное хэширование}. Так как требуется подделка подписи для любого сообщения, то рассматривается
+        модель стойкости UUF-CMA (Universal Unforgeability under Chosen Message Attack). Рассмотрим противника $\mathcal{A}$,
+        действующего по следующему сценарию:
+        \begin{itemize}
+            \item $\mathcal{A}$ генерирует некоторое сообщение $m \in \mathcal{M}$ (любое).
+            
+            \item $\mathcal{A}$ вычисляет хэш сообщения: $c = H(m)$.
+            
+            \item $\mathcal{A}$ вычисляется значение $R = h^{-c}$ ($h = pk$), значение $z$ полагается равным 0.
+            
+            \item Подпись $\sigma = (R, z) = (pk^{-H(m)}, 0)$ отправляется оракулу проверки подписи.
+        \end{itemize}
+        
+        Заметим, что проверка этой подписи выполнится всегда:
+        \begin{equation*}
+            \begin{split}
+                & c \leftarrow H(m) \\
+                & g^z = e_{\mathbb{G}} \\
+                & R \cdot h^c = h^{-H(m)} \cdot h^{H(m)} = h^0 = e_{\mathbb{G}}
+            \end{split}
+        \end{equation*}
+        
+        Таким образом:
+        \begin{equation*}
+            \textbf{Adv}_{\text{SS}}^{\text{UUF-CMA}}(\mathcal{A}) = 
+                \text{Pr}[V(pk, m, S(sk, m)) = \text{accept}] = 1
+        \end{equation*}
+\end{enumerate}
+
 \mysection{Задание 11}
 
 \mysection{Задание 12}
