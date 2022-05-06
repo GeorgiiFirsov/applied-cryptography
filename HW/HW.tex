@@ -179,11 +179,12 @@ $p,a,b$); г) вычисление $H^{(n)}$ требует времени $O(\l
         
         Заметим, что проверка этой подписи выполнится всегда:
         \begin{equation*}
-            \begin{split}
-                & c \leftarrow H(m) \\
-                & g^z = e_{\mathbb{G}} \\
-                & R \cdot h^c = h^{-H(m)} \cdot h^{H(m)} = h^0 = e_{\mathbb{G}}
-            \end{split}
+            \left.\begin{array}{l}
+                c \leftarrow H(m) \\
+                \textcolor{red}{g^z} = \textcolor{red}{e_{\mathbb{G}}} \\
+                \textcolor{red}{R \cdot h^c} = h^{-H(m)} \cdot h^{H(m)} = h^0 = 
+                    \textcolor{red}{e_{\mathbb{G}}}
+            \end{array}\right\} \implies V(pk, m, \sigma) = \text{accept}
         \end{equation*}
         
         Таким образом:
