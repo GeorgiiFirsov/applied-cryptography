@@ -1,4 +1,12 @@
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
 
+*/.texpadtmp/*
+.texpadtmp/*
+
+# Hidden items
+.*
+!/.gitignore
+
+# Some files with known names
 .DS_Store
