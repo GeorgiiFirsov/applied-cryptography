@@ -1,0 +1,102 @@
+\documentclass[12pt, a4paper]{extarticle}
+
+
+% Russian text support
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+
+% Some useful packages
+\usepackage{indentfirst}
+\usepackage{etoolbox}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{xcolor}
+
+% Page geometry
+\usepackage[
+    left=3cm,
+    right=1cm,
+    top=2cm,
+    bottom=2cm
+]{geometry}
+
+% Make titles not to have numbering
+\newenvironment*{dummyenv}{}{}
+
+\newcommand{\mysection}[1]{
+    \addcontentsline{toc}{section}{#1}
+    \begin{dummyenv}
+        \bfseries\large #1
+    \end{dummyenv}
+}
+
+\makeatletter
+\patchcmd{\l@section}
+  {\hfil}
+  {\leaders\hbox{\normalfont$\m@th\mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}\hfill}
+  {}{}
+\makeatother
+
+% Here we go...
+\title{БДЗ по прикладной криптографии}
+\author{Фирсов Георгий, М21-507}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\pagebreak
+
+\mysection{Задание 1}
+
+Анна генерирует два числа $x \xleftarrow{R} \mathbb{Z}_1, y \xleftarrow{R} \mathbb{Z}_q$, после чего отсылает
+Борису тройку $(A_0, A_1, A_2) = (g^x, g^y, g^{xy + a})$.
+
+Борис генерирует свои два числа $r \xleftarrow{R} \mathbb{Z}_q, s \xleftarrow{R} \mathbb{Z}_q$, а затем отправляет
+Анне следующую пару: $(B_1, B_2) = (A_1^r \cdot g^s, (A_2/g^b)^r \cdot A_0^s)$. Заметим, что:
+\begin{equation}
+    \begin{split}
+        & B_1 = A_1^r \cdot g^s = g^y \cdot g^s = g^{\textcolor{red}{y + s}} \\
+        & B_2 = (A_2/g^b)^r \cdot A_0^s) = g^{xy + a} \cdot g^{-b} \cdot g^{xs} = g^{x(\textcolor{red}{y + s}) + a - b}
+    \end{split}  
+\end{equation}
+
+Если $B_1$ возвести в степень $x$ и затем умножить на обратный к полученному элемент число $B_2$, то получится $g^{a - b}$:
+\begin{equation}
+    \begin{split}
+        & B_1 ^ x = \left(g^{y + s}\right) ^ x = g^{x(y + s)} \\
+        & B_2 \cdot (B_1^{-x}) = g^{x(y + s) + a - b} \cdot g^{-x(y + s)} = g^{a - b}
+    \end{split}
+\end{equation}
+
+Если $a = b$, то $g^{a - b} = g^0 = e_{\mathbb{G}}$. Это свойство и можно использовать для проверки равенства чисел $a$ и $b$.
+
+\textbf{Ответ:} в) Анна проверяет равенство $B_2 / B_1^x = 1$
+\\
+
+\mysection{Задание 2}
+
+\mysection{Задание 3}
+
+\mysection{Задание 4}
+
+\mysection{Задание 5}
+
+\mysection{Задание 6}
+
+\mysection{Задание 7}
+
+\mysection{Задание 8}
+
+\mysection{Задание 9}
+
+\mysection{Задание 10}
+
+\mysection{Задание 11}
+
+\mysection{Задание 12}
+
+\end{document}
