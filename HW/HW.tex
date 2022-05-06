@@ -223,7 +223,26 @@ $p,a,b$); г) вычисление $H^{(n)}$ требует времени $O(\l
             \text{Pr}\left[\begin{array}{c}
                 \text{Элемент } (c_1 - a c_0) \\
                 \text{обратим в кольце } \mathbb{Z}_q
-            \end{array}\right] = 1 - \frac{1}{|\mathbb{Z}_q|} = \frac{q - 1}{q}
+            \end{array}\right] = 1 - \frac{1}{|\mathbb{Z}_q|} = \frac{q - 1}{q} \xrightarrow[q \to \infty]{} 1
+        \end{equation*}
+        
+    \item \textit{Атака по взаимосвязанным ключам}. Пусть $pk_i = h \cdot g^i = g^{\alpha} \cdot g^i = g^{\alpha + i}$,
+        тогда через обозначим $sk_i = \alpha_i = \alpha + i$ (согласно нотации криптосистемы). Введем также обозначение 
+        $\Delta\alpha_{ij} := j - i$.
+        
+        Пусть для некоторого сообщения $m$ имеется некоторая подпись $\sigma_i = (R_i, z_i)$, где $z_i = \rho_i + 
+        c_i \alpha_i$, $c_i = H(m, R_i)$. Противник генерирует следующую подпись: $\sigma_j = (R_i, z_j)$, где 
+        $z_j = \rho_i + c_i \alpha_i + c_i \Delta\alpha_{ij} = \rho_i + c_i\alpha_j$. 
+        
+        Эта подпись является валидной 
+        для того же сообщения и успешно проверяется на ключе $pk_j$:
+        \begin{equation*}
+            \left.\begin{array}{l}
+                c = H(m, R_i) \\
+                g^{z_j} = g^{\rho_i + c_i\alpha_j} = \textcolor{red}{g^{\rho_i + c_i(\alpha + j)}} \\
+                R_i \cdot pk_j^{c} = g^{\rho_i} \cdot g^{c(\alpha + j)} = 
+                    \textcolor{red}{g^{\rho_i + c(\alpha + j)}}
+            \end{array}\right\} \implies V(pk_j, m, \sigma_j) = \text{accept}
         \end{equation*}
 \end{enumerate}
 
