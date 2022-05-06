@@ -192,6 +192,39 @@ $p,a,b$); г) вычисление $H^{(n)}$ требует времени $O(\l
             \textbf{Adv}_{\text{SS}}^{\text{UUF-CMA}}(\mathcal{A}) = 
                 \text{Pr}[V(pk, m, S(sk, m)) = \text{accept}] = 1
         \end{equation*}
+        
+    \item \textit{Некорректная генерация случайных чисел}. Обозначим $c_i = H(m_i, R_i), i \in \{0, 1\}$ и, зная, что
+        $\rho_1 = a \rho_0 + b$, запишем:
+        \begin{equation*}
+            \begin{split}
+                & \left\{\begin{array}{l}
+                    z_0 = \rho_0 + c_0 \alpha \\
+                    z_1 = a \rho_0 + b + c_1 \alpha
+                \end{array}\right. \\ \\
+                & \left\{\begin{array}{l}
+                    a z_0 = a \rho_0 + a c_0 \alpha \\
+                    z_1 = a \rho_0 + b + c_1 \alpha
+                \end{array}\right.
+            \end{split}
+        \end{equation*}
+        
+        Тогда:
+        \begin{equation*}
+            \begin{split}
+                & z_1 - a z_0 = b + \alpha (c_1 - a c_0) \\
+                & \alpha = (z_1 - a z_0 - b)(c_1 - a c_0)^{-1}
+            \end{split}
+        \end{equation*}
+        
+        В общем-то $(c_1 - a c_0)$ -- некоторый случайный элемент из $\mathbb{Z}_q$, а так как $q$ -- простое число,
+        то для обратимости элемента требуется только то, чтобы он был ненулевым. Вероятность того, что элемент
+        $(c_1 - a c_0)$ обратим, равна:
+        \begin{equation*}
+            \text{Pr}\left[\begin{array}{c}
+                \text{Элемент } (c_1 - a c_0) \\
+                \text{обратим в кольце } \mathbb{Z}_q
+            \end{array}\right] = 1 - \frac{1}{|\mathbb{Z}_q|} = \frac{q - 1}{q}
+        \end{equation*}
 \end{enumerate}
 
 \mysection{Задание 11}
