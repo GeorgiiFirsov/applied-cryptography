@@ -259,6 +259,36 @@ $p,a,b$); г) вычисление $H^{(n)}$ требует времени $O(\l
 
 \mysection{Задание 9}
 
+Так как $\text{ord }\mathbb{G} = q$ -- простое число, то все элементы группы, не равные $e_{\mathbb{G}}$, являются образующими.
+Это значит, что взяв случайный неединичный элемент группы, гарантированно можно получить образующий.
+
+\begin{enumerate}
+    \item Общеизвестными параметрами схемы мультикоммитмента являются: $(h, g_1, ..., g_n)$, для которых выполнено:
+        \begin{equation*}
+            \begin{split}
+                & h \in \mathbb{G}, h \ne e_{\mathbb{G}} \\
+                & \forall i \in \{1, ..., n\} : g_i \in \mathbb{G}, g_i \ne e_{\mathbb{G}} \\
+                & \forall i, j \in \{1, ..., n\} : g_i \ne h; i \ne j \implies g_i \ne g_j
+            \end{split}
+        \end{equation*}
+        
+        Пусть $r \xleftarrow{R} \mathbb{Z}_q$. Функция $Commit_n$ выглядит следующим образом:
+        \begin{equation}
+            Commit_n(\mathbf{m}, r) = h^r \prod_{j = 1}^{n} g_j^{m_j}, \mathbf{m} = (m_1, ..., m_n)
+            \label{9.1-multicommitment}
+        \end{equation}
+        
+        Несложно показать свойство гомоморфизма:
+        \begin{equation*}
+            \begin{split}
+                Commit_n(\mathbf{m} + \mathbf{m'}, &\ r + r') = h^{r + r'} \prod_{j = 1}^{n} g_j^{m_j + m'_j} = 
+                    h^r h^{r'} \left(\prod_{j = 1}^{n} g_j^{m_j}\right) \left(\prod_{j = 1}^{n} g_j^{m'_j}\right) = \\
+                & = \left(h^r \prod_{j = 1}^{n} g_j^{m_j}\right) \left(h^{r'} \prod_{j = 1}^{n} g_j^{m'_j}\right) =
+                    Commit_n(\mathbf{m}, r) + Commit_n(\mathbf{m'}, r')
+            \end{split}
+        \end{equation*}
+\end{enumerate}
+
 \mysection{Задание 10}
 
 \begin{enumerate}
