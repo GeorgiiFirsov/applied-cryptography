@@ -14,6 +14,10 @@
 \usepackage{amsfonts}
 \usepackage{xcolor}
 
+% Pictures support
+\usepackage{graphicx}
+\graphicspath{ {../images/} }
+
 % Page geometry
 \usepackage[
     left=3cm,
@@ -270,7 +274,136 @@ $\log _2(n)$ умножений.
 
 \mysection{Задание 7}
 
+Преобразуем $\mathcal{F}$:
+\begin{equation*}
+    \begin{split}
+        \mathcal{F}(x_1, x_2, x_3) = (& -5x_1^2+5x_1x_2+x_1x_3 - x_2x_3, \\ 
+        & -3x_1+3x_1x_2+x_1x_3+3x_2-3x_2^2-x_2x_3) = \\
+        & = \left((x_3 - 5x_1)(x_1 - x_2), (3x_2 + x_3 - 3)(x_1 - x_2)\right)
+    \end{split}
+\end{equation*}
 
+Арифметическая схема для $\mathcal{F}$ изображена на рисунке \ref{arithmetic-circuit}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{arithmetic-circuit-hw_7.png}
+    \caption{Арифметическая схема}
+    \label{arithmetic-circuit}
+\end{figure}
+
+Построим по данной схеме квадратичную арифметическую программу:
+
+\begin{enumerate}
+    \item Построим множества $M, W$ и $I_{g, L}, I_{g, R}, g \in M$:
+        \begin{equation*}
+            \begin{split}
+                & M = \{g_4, g_5\} \\
+                & W = \{x_1, x_2, x_3, x_4, x_5\} \\
+                & I_{g_4, L} = \{x_1, x_2\}, I_{g_4, R} = \{x_1, x_3\} \\
+                & I_{g_5, L} = \{x_1, x_2\}, I_{g_5, R} = \{x_2, x_3\}
+            \end{split}
+        \end{equation*}
+        
+    \item Полином: $Z(z) = (z - r_4)(z - r_5)$, где $r_i \sim g_i, i \in \{4, 5\}$.
+    
+    \item Посчитаем значения полиномов $A_i(z)$ и $B_i(z), i \in \{0, ..., 5\}$ на корнях $Z(z)$.
+        Значения представлены в табл. \ref{ab-values}.
+        
+        \begin{table}[h]
+            \centering
+            \caption{Значения полиномов $A_i(z), B_i(z), i \in \{0, ..., 5\}$ на корнях $Z(z)$}
+            \label{ab-values}
+            \begin{tabular}{|c|c|c|c|c|c|}
+                \hline
+                $A_0(r_4)$ & $A_1(r_4)$ & $A_2(r_4)$ & $A_3(r_4)$ & $A_4(r_4)$ & $A_5(r_4)$ \\
+                \hline 
+                0 & 1 & -1 & 0 & 0 & 0 \\
+                \hline 
+                $A_0(r_5)$ & $A_1(r_5)$ & $A_2(r_5)$ & $A_3(r_5)$ & $A_4(r_5)$ & $A_5(r_5)$ \\
+                \hline 
+                0 & 1 & -1 & 0 & 0 & 0 \\
+                \hline 
+                $B_0(r_4)$ & $B_1(r_4)$ & $B_2(r_4)$ & $B_3(r_4)$ & $B_4(r_4)$ & $B_5(r_4)$ \\
+                \hline 
+                0  & -5 & 0 & 1 & 0 & 0 \\
+                \hline 
+                $B_0(r_5)$ & $B_1(r_5)$ & $B_2(r_5)$ & $B_3(r_5)$ & $B_4(r_5)$ & $B_5(r_5)$ \\
+                \hline 
+                -3 & 0  & 3 & 1 & 0 & 0 \\
+                \hline 
+            \end{tabular}
+        \end{table}
+    
+    \item Значения полиномов $C_i(z), i \in \{0, ..., 5\}$ на корнях $Z(z)$ приведены в табл. \ref{c-values}.
+    
+        \begin{table}[h]
+            \centering
+            \caption{Значения полиномов $C_i(z), i \in \{0, ..., 5\}$ на корнях $Z(z)$}
+            \label{c-values}
+            \begin{tabular}{|c|c|c|c|c|c|}
+                \hline
+                $C_0(r_4)$ & $C_1(r_4)$ & $C_2(r_4)$ & $C_3(r_4)$ & $C_4(r_4)$ & $C_5(r_4)$ \\
+                \hline 
+                0 & 0 & 0 & 0 & 1 & 0 \\
+                \hline 
+                $C_0(r_5)$ & $C_1(r_5)$ & $C_2(r_5)$ & $C_3(r_5)$ & $C_4(r_5)$ & $C_5(r_5)$ \\
+                \hline 
+                0 & 0 & 0 & 0 & 0 & 1 \\
+                \hline 
+            \end{tabular}
+        \end{table}
+        
+    \item Получаются вот такие полиномы:
+        \begin{equation*}
+            \begin{split}
+                & A_0(z) = A_3(z) = A_4(z) = A_5(z) \equiv 0 \\
+                & A_1(z) = \frac{z - r_4}{r_5 - r_4} + \frac{z - r_5}{r_4 - r_5} \\
+                & A_2(z) = \frac{z - r_4}{r_4 - r_5} + \frac{z - r_5}{r_5 - r_4} \\
+                & B_4(z) = B_5(z) \equiv 0 \\
+                & B_0(z) = 3 \cdot \frac{z - r_4}{r_4 - r_5} \\
+                & B_1(z) = 5 \cdot \frac{z - r_5}{r_5 - r_4} \\
+                & B_2(z) = 3 \cdot \frac{z - r_4}{r_5 - r_4} \\
+                & B_3(z) = \frac{z - r_4}{r_5 - r_4} + \frac{z - r_5}{r_4 - r_5}
+            \end{split}
+        \end{equation*}
+        
+    \item В таком случае, получаем следующие $A, B$ и $C$:
+        \begin{equation*}
+            \begin{split}
+                & A(z) = x_1 \cdot A_1(z) + x_2 \cdot A_2(z) \\
+                & B(z) = B_0(z) + x_1 \cdot B_1(z) + x_2 \cdot B_2(z) + x_3 \cdot B_3(z) \\
+                & C(z) = x_4 \cdot C_4(z) + x_5 \cdot C_5(z)
+            \end{split}
+        \end{equation*}
+        
+        Рассмотрим значения $P(z) = A(z) \cdot B(z) - C(z)$ на корнях $Z(z)$:
+        \begin{equation*}
+            \begin{split}
+                P(r_4) & = A(r_4) \cdot B(r_4) - C(r_4) = \\
+                & = \left(x_1 \cdot A_1(r_4) + x_2 \cdot A_2(r_4)\right)
+                    \left(B_0(r_4) + x_1 \cdot B_1(r_4) + x_2 \cdot B_2(r_4) 
+                    + x_3 \cdot B_3(r_4)\right) - x_4 = \\
+                & = (x_1 - x_2)(x_3 - 5x_1) - x_4
+            \end{split}
+        \end{equation*}
+        
+        \begin{equation*}
+            \begin{split}
+                P(r_5) & = A(r_5) \cdot B(r_5) - C(r_5) = \\
+                & = \left(x_1 \cdot A_1(r_5) + x_2 \cdot A_2(r_5)\right)
+                    \left(B_0(r_5) + x_1 \cdot B_1(r_5) + x_2 \cdot B_2(r_5) 
+                    + x_3 \cdot B_3(r_5)\right) - x_5 = \\
+                & = (x_1 - x_2)(3x_2 + x_3 - 3) - x_5
+            \end{split}
+        \end{equation*}
+        
+        Таким образом, $Z(z) | P(z)$ $\iff$ $r_4, r_5$ являются корнями $P(z)$, т.е. 
+        $(x_1, x_2, x_3, x_4, x_5)$ -- корректное назначение для исходной арифметической схемы.
+        
+        Требуемая квадратичная арифметическая программа -- $Q(C) = \left(\vec{A}, \vec{B}, \vec{C}, 
+        Z \right)$.
+\end{enumerate}
 
 \mysection{Задание 8}
 
