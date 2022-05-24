@@ -28,4 +28,11 @@ Applied cryptography course labs (defensive part). National Research Nuclear Uni
   - Issuance of a certificate
   - Certificate revocation
 - Lab 7: Signal protocol
-  - to be written...
+  - [X3DH][1]
+  - [Double Ratchet][2]
+
+
+<!-- References -->
+
+[1]: https://signal.org/docs/specifications/x3dh/
+[2]: https://signal.org/docs/specifications/doubleratchet/
