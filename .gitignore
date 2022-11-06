@@ -4,6 +4,10 @@
 */.texpadtmp/*
 .texpadtmp/*
 
+artifacts/*
+cache/*
+node_modules/*
+
 # Hidden items
 .*
 !/.gitignore
