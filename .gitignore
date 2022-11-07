@@ -4,9 +4,9 @@
 */.texpadtmp/*
 .texpadtmp/*
 
-artifacts/*
-cache/*
-node_modules/*
+artifacts/
+cache/
+node_modules/
 
 # Hidden items
 .*
