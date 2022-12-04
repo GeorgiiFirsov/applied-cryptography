@@ -14,9 +14,9 @@ contract Lab3Token is ERC20 {
     // I want to store miners container in contract...
     struct MinerInfo {
         address referrer;
-	bool isActive;
-	int reputation;
-	uint32 coinsMined;
+        bool isActive;
+        int reputation;
+        uint32 coinsMined;
     }
 
     // Mapping between miner's addresses and their information
@@ -64,7 +64,7 @@ contract Lab3Token is ERC20 {
         // Now let's notify about miner's creation
         //
 
-	emit MinerAdded(minerAddress);
+        emit MinerAdded(minerAddress);
     }
 
 
@@ -77,8 +77,8 @@ contract Lab3Token is ERC20 {
     // Register a new miner
     function registerMiner(address minerAddress) external {
         //
-	// Just call internal function and pass 0x00 as a referrerAddress
-	//
+        // Just call internal function and pass 0x00 as a referrerAddress
+        //
 
         return registerMinerInternal(minerAddress, address(0x00));
     }
@@ -87,41 +87,41 @@ contract Lab3Token is ERC20 {
     // Update miner's information
     function updateMiner(address minerAddress, bool isActive_, int reputation_, uint32 coinsMined_) external {
         //
-	// Get reference to the stored object
-	//
+        // Get reference to the stored object
+        //
 
-	MinerInfo storage info = miners[minerAddress];
+        MinerInfo storage info = miners[minerAddress];
 	
-	//
-	// Modify data and then emit an event about changing miner's state
-	//
+        //
+        // Modify data and then emit an event about changing miner's state
+        //
 
-	info.isActive = isActive_;
-	info.reputation = reputation_;
-	info.coinsMined = coinsMined_;
+        info.isActive = isActive_;
+        info.reputation = reputation_;
+        info.coinsMined = coinsMined_;
 
-	emit MinerUpdated(minerAddress);
+        emit MinerUpdated(minerAddress);
     }
 
 
     // Query for miner information
     function getMinerInfo(address minerAddress)
         external
-	view
-	returns(address, bool, int, uint32)
+        view
+        returns(address, bool, int, uint32)
     {
-	//
-	// Create reference to the real object and return its fields
-	//
+        //
+        // Create reference to the real object and return its fields
+        //
 
         MinerInfo storage info = miners[minerAddress];
 
         return (
-	    info.referrer,
-	    info.isActive,
-	    info.reputation,
-	    info.coinsMined
-	);
+            info.referrer,
+            info.isActive,
+            info.reputation,
+            info.coinsMined
+        );
     }
 
 
@@ -129,14 +129,14 @@ contract Lab3Token is ERC20 {
     // nevermind this function must be present here. Returns a new hash index.
     function associateData(bytes memory data) 
         external
-	returns (uint)
+        returns (uint)
     {
         //
-	// Just compute hash and return it's index in array
-	//
+        // Just compute hash and return it's index in array
+        //
 
-	associatedHashes.push(hash.wrap(sha256(data)));
-	return associatedHashes.length - 1;
+        associatedHashes.push(hash.wrap(sha256(data)));
+        return associatedHashes.length - 1;
     }
 
 
@@ -144,12 +144,12 @@ contract Lab3Token is ERC20 {
     // otherwise, it returns (false, 0x00)
     function queryHash(uint index)
         external
-	view
-	returns (bool, hash)
+        view
+        returns (bool, hash)
     {
-	return index < associatedHashes.length 
-	    ? (true, associatedHashes[index]) 
-	    : (false, hash.wrap(0x00));
+        return index < associatedHashes.length 
+            ? (true, associatedHashes[index]) 
+            : (false, hash.wrap(0x00));
     }
 }
 
