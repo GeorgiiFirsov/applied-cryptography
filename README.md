@@ -13,7 +13,8 @@ Applied cryptography course labs (defensive part). National Research Nuclear Uni
 
 ## Semester 2
 
-- Lab 2: ERC20 smart-contract implementation, tests and deployment
+- Lab 2: ERC20 smart contract implementation, tests and deployment
+- Lab 3: Custom functions in smart contract
 
 
 <!-- References -->
