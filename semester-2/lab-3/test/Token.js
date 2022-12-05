@@ -18,10 +18,10 @@ describe("LabToken.sol", () => {
     beforeEach(async () => {
         initialSupply = ethers.utils.parseEther(INITIAL_SUPPLY.toString());
         contractFactory = await ethers.getContractFactory(TOKEN_NAME);
-	
+    
         [owner, alice, bob] = await ethers.getSigners();
         contract = await contractFactory.deploy(initialSupply);
-	
+    
         ownerAddress = await owner.getAddress();
         aliceAddress = await alice.getAddress();
         bobAddress = await bob.getAddress();
@@ -47,11 +47,11 @@ describe("LabToken.sol", () => {
     describe("Core", () => {
         it("owner should transfer to Alice and update balances", async () => {
             const transferAmount = ethers.utils.parseEther("1000");
-            
-	    let aliceBalance = await contract.balanceOf(aliceAddress);
+
+            let aliceBalance = await contract.balanceOf(aliceAddress);
             expect(aliceBalance).to.equal(0);
             
-	    await contract.transfer(aliceAddress, transferAmount);
+            await contract.transfer(aliceAddress, transferAmount);
             aliceBalance = await contract.balanceOf(aliceAddress);
             expect(aliceBalance).to.equal(transferAmount);
         });
@@ -63,7 +63,7 @@ describe("LabToken.sol", () => {
             let bobBalance = await contract.balanceOf(bobAddress);
             expect(bobBalance).to.equal(0);
             
-			await contract.connect(alice).transfer(bobAddress, transferAmount);
+            await contract.connect(alice).transfer(bobAddress, transferAmount);
             bobBalance = await contract.balanceOf(bobAddress);
             expect(bobBalance).to.equal(transferAmount);
         });
@@ -76,18 +76,18 @@ describe("LabToken.sol", () => {
             //
 
             contract['registerMiner(address)'](ownerAddress);
-			contract['registerMiner(address,address)'](aliceAddress, ownerAddress);
-			
-			// Actually don't know for now, what to test here
+            contract['registerMiner(address,address)'](aliceAddress, ownerAddress);
+            
+            // Actually don't know for now, what to test here
         });
 
         it("Updates and queries", () => {
             contract['registerMiner(address)'](ownerAddress);
-			contract.updateMiner(ownerAddress, false, 100, 10);
-			
-			contract.getMinerInfo(ownerAddress)
-				.then((value) => {
-				    expect(value).to.equal(['0x0000000000000000000000000000000000000000', 
+            contract.updateMiner(ownerAddress, false, 100, 10);
+
+            contract.getMinerInfo(ownerAddress)
+                .then((value) => {
+                    expect(value).to.equal(['0x0000000000000000000000000000000000000000', 
                                             false,
                                             BigNumber(100),
                                             100
@@ -99,10 +99,10 @@ describe("LabToken.sol", () => {
     describe("Hashes array test", () => {
         it("Insertion", async () => {
             var data = new Uint8Array(10);
-			contract.associateData(data)
-				.then((value) => {
-				    expect(value.value.value).to.equal(0);
-			    });
-		});
+            contract.associateData(data)
+                .then((value) => {
+                    expect(value.value.value).to.equal(0);
+                });
+        });
     });
 });
