@@ -1,7 +1,7 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
-TOKEN_NAME = 'Lab3Token'
+TOKEN_NAME = 'Lab4Token'
 INITIAL_SUPPLY = 100000;
 
 describe("LabToken.sol", () => {
@@ -35,12 +35,12 @@ describe("LabToken.sol", () => {
 
         it("should have correct supply", async () => {
             const supply = await contract.totalSupply();
-            expect(supply).to.equal(initialSupply);
+            expect(supply.value).to.equal(initialSupply.value);
         });
 
         it("owner should have all the supply", async () => {
             const ownerBalance = await contract.balanceOf(ownerAddress);
-            expect(ownerBalance).to.equal(initialSupply);
+            expect(ownerBalance.value).to.equal(initialSupply.value);
         });
     });
 
@@ -48,7 +48,7 @@ describe("LabToken.sol", () => {
         it("owner should transfer to Alice and update balances", async () => {
             const transferAmount = ethers.utils.parseEther("1000");
 
-            let aliceBalance = await contract.balanceOf(aliceAddress);
+            const aliceBalance = await contract.balanceOf(aliceAddress);
             expect(aliceBalance).to.equal(0);
             
             await contract.transfer(aliceAddress, transferAmount);
@@ -77,8 +77,24 @@ describe("LabToken.sol", () => {
 
             contract['registerMiner(address)'](ownerAddress);
             contract['registerMiner(address,address)'](aliceAddress, ownerAddress);
-            
-            // Actually don't know for now, what to test here
+
+            contract.getMinerInfo(ownerAddress)
+                .then((value) => {
+                    expect(value).to.equal(['0x000000000000000000000000000000000000000',
+                                            true,
+                                            BigNumber(0),
+                                            0
+                                           ]);
+                });
+
+            contract.getMinerInfo(aliceAddress)
+                .then((value) => {
+                    expect(value).to.equal([ownerAddress,
+                                            true,
+                                            BigNumber(0),
+                                            0
+                                           ])
+                })
         });
 
         it("Updates and queries", () => {
