@@ -1,7 +1,7 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
-TOKEN_NAME = 'Lab4Token'
+TOKEN_NAME = 'Lab3Token'
 INITIAL_SUPPLY = 100000;
 
 describe("LabToken.sol", () => {
