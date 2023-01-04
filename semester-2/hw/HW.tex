@@ -1,0 +1,80 @@
+\documentclass[12pt, a4paper]{extarticle}
+
+
+% Russian text support
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+
+% Some useful packages
+\usepackage{indentfirst}
+\usepackage{etoolbox}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{xcolor}
+
+% Pictures support
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+
+% Page geometry
+\usepackage[
+    left=3cm,
+    right=1cm,
+    top=2cm,
+    bottom=2cm
+]{geometry}
+
+% Make titles not to have numbering
+\newenvironment*{dummyenv}{}{}
+
+\newcommand{\mysection}[1]{
+    \addcontentsline{toc}{section}{#1}
+    \begin{dummyenv}
+        \bfseries\large #1
+    \end{dummyenv}
+}
+
+\makeatletter
+\patchcmd{\l@section}
+  {\hfil}
+  {\leaders\hbox{\normalfont$\m@th\mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}\hfill}
+  {}{}
+\makeatother
+
+% Here we go...
+\title{БДЗ по прикладной криптографии}
+\author{Фирсов Георгий, М21-507}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\pagebreak
+\mysection{Задание 1}
+
+\pagebreak
+\mysection{Задание 2}
+
+\pagebreak
+\mysection{Задание 3}
+
+\pagebreak
+\mysection{Задание 4}
+
+\pagebreak
+\mysection{Задание 5}
+
+\pagebreak
+\mysection{Задание 6}
+
+\pagebreak
+\mysection{Задание 8}
+
+\pagebreak
+\mysection{Задание 9}
+
+\end{document}
