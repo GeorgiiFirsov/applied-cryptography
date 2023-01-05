@@ -338,6 +338,41 @@
 
 \mysection{Задание 5}
 
+\begin{enumerate}
+    \item Пусть $\eta$ --- доля вознаграждения, затрачиваемая на оплату электроэнергии, $f$ --- 
+        частота майнинга новых блоков (количество блоков в день), $r$ --- вознаграждение за
+        майнинг одного блока, $c_a^b$ --- цена единицы валюты $a$, выраженная в единицах $b$, 
+        $T$ --- тариф.
+        
+        Тогда, искомая величина дневного потребления электроэнергии выражается следующей формулой:
+        \begin{equation}
+            E = \frac{\eta f r c_{\text{BTC}}^{\text{РУБ}}}{T}    
+        \end{equation}
+        
+        В нашем случае:
+        \begin{equation}
+        \begin{split}
+            & \eta = 0.8 \\
+            & f = 24 \cdot 6 = 144 \text{ (6 блоков за час)} \\
+            & r = 6.25 \\
+            & c_{\text{BTC}}^{\text{РУБ}} = c_{\text{BTC}}^{\text{USD}} \cdot c_{\text{USD}}^{\text{РУБ}} 
+                = 16858 \cdot 72,68 = 1225239,44 \text{ (данные на 22:51 05.01.2023)} \\
+            & T = 5,15 \text{ (Москва)}
+        \end{split}
+        \end{equation}
+
+        Тогда:
+        \begin{equation}
+            E = \frac{0.8 \cdot 144 \cdot 6.25 \cdot 1225239,44}{5.15} = 171295611,02913 
+                \text{ кВт} \cdot \text{ч}
+        \end{equation}
+        
+        \Answer{$E = 171295611,02913 \text{ кВт} \cdot \text{ч}$.}
+    \item 
+    
+    \item
+\end{enumerate}
+
 \pagebreak
 \mysection{Задание 6}
 
