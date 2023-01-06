@@ -519,6 +519,142 @@
 \pagebreak
 \mysection{Задание 9}
 
+\begin{enumerate}
+    \item Будем считать, что при возможных значениях $m$ оно достаточно быстро находится по известным $g$ и 
+        $g ^ m$ (то есть задача дискретного логарифма для таких значений $m$ решается за приемлемое время).
+        
+        Тогда алгоритм $\texttt{Dec}(sk, (u, v))$ описывается следующей последовательностью действий:
+        \begin{itemize}
+            \item вычисляется значение $w = \frac{u ^ c}{v ^ a} = g ^ {m(c - ab)}$ (так как $c \ne ab$, 
+                показатель может быть равен нулю только если $m = 0$);
+            
+            \item перебираются различные кандидаты $\tilde{m}$ для $m$, пока не будет найдено такое, что
+                $g ^ {\tilde{m}(c - ab)} = w$. Это и будет расшифрованным сообщением.
+        \end{itemize}
+        
+    \item Отметим, что значение $r$ никак не участвует в расшифровании, поэтому алгоритм 
+        $\texttt{Add}(pk, ct_1, ct_2)$ строится достаточно очевидным способом:
+        \begin{equation}
+        \begin{split}
+            & \texttt{Add}(pk, ct, ct') = (u_{sum}, v_{sum}) \\
+            & u_{sum} = u \cdot u' = g ^ {m + a r} g ^ {m' + a r'} = 
+                g ^ {(m + m') + a (r + r')} \\
+            & v_{sum} = v \cdot v' = g ^ {m b + c r} g ^ {m' b + c r'} = 
+                g ^ {(m + m') b + c (r + r')}
+        \end{split}
+        \end{equation}
+        
+    \item Запишем значения $u, u', v, v'$ в аддитивной нотации (все-таки аддитивные группы):
+        \begin{equation}
+        \begin{split}
+            u  & = (m + r a) g \\
+            v  & = (m b + r c) g \\
+            u' & = (m' + r' a') h \\
+            v' & = (m' b' + r' c') h
+        \end{split}
+        \end{equation}
+        
+        В силу билинейности отношения спаривания $e$ верно:
+        \begin{equation}
+        \begin{split}
+            \alpha_1 & = (m + r a)(m' + r' a') \\
+            \alpha_2 & = (m + r a)(m' b' + r' c') \\
+            \alpha_3 & = (m b + r c)(m' + r' a') \\
+            \alpha_4 & = (m b + r c)(m' b' + r' c')
+        \end{split}
+        \end{equation}
+        
+        Тогда запишем:
+        \begin{equation}
+        \begin{split}
+            m m' & = C_1 \alpha_1 + C_2 \alpha_2 + C_3 \alpha_3 + C_4 \alpha_4,
+        \end{split}
+        \end{equation}
+        для некоторых $C_j$, $j \in \{1, ..., 4\}$.
+        
+        Теперь подставим значения для $\alpha_j$, $j \in \{1, ..., 4\}$ и раскроем скобки:
+        \begin{equation}
+        \begin{split}
+            m m' & = C_1 (m + r a)(m' + r' a') + C_2 (m + r a)(m' b' + r' c') + \\
+            & + C_3 (m b + r c)(m' + r' a') + C_4 (m b + r c)(m' b' + r' c') = \\
+            & = m m' (C_1 + C_2 b' + C_3 b + C_4 b b') + m r' (C_1 a' + C_2 c' + C_3 b a' + C_4 b c') + \\
+            & + m' r (C_1 a + C_2 a b' + C_3 c + C_4 c b') + r r' (C_1 a a' + C_2 a c' + C_3 c a' + C_4 c c').
+        \end{split}
+        \label{eq:mm-equality}
+        \end{equation}
+        
+        По равенству несложно составить следующую СЛАУ относительно $C_j$, $j \in \{1, ..., 4\}$:
+        \begin{equation}
+            \left\{\begin{array}{lclclclcl}
+                C_1      & + & C_2 b'   & + & C_3 b    & + & C_4 b b' & = & 1 \\
+                C_1 a'   & + & C_2 c'   & + & C_3 b a' & + & C_4 b c' & = & 0 \\
+                C_1 a    & + & C_2 a b' & + & C_3 c    & + & C_4 c b' & = & 0 \\
+                C_1 a a' & + & C_2 a c' & + & C_3 c a' & + & C_4 c c' & = & 0
+            \end{array}
+            \right.
+        \label{eq:slae}
+        \end{equation}
+        
+        Несложно заметить, что при условии, что $C_j$, $j \in \{1, ..., 4\}$ являются решениями
+        данной системы, равенство (\ref{eq:mm-equality}) выполняется. Осталось доказать, что данная
+        система совместна. Воспользуемся теоремой Кронекера-Капелли.
+        
+        Приведем (расширенную) матрицу системы к каноническому виду:
+        \begin{equation}
+        \begin{split}
+            & 
+            \begin{array}{||cccc|c||}
+                1    & b'   & b    & b b' & 1 \\
+                a'   & c'   & b a' & b c' & 0 \\
+                a    & a b' & c    & c b' & 0 \\
+                a a' & a c' & c a' & c c' & 0
+            \end{array}
+            \sim
+            \begin{array}{||cccc|c||}
+                1  & b'   & b    & b b' & 1 \\
+                a' & c'   & b a' & b c' & 0 \\
+                a  & a b' & c    & c b' & 0 \\
+                0  & 0    & a'   & c'   & 0
+            \end{array}
+            \sim \\ \sim\ &
+            \begin{array}{||cccc|c||}
+                1 & b'         & b      & b b'           & 1   \\
+                0 & c' - a' b' & 0      & b (c' - a' b') & -a' \\
+                0 & 0          & c - ab & b' (c - ab)    & -a  \\
+                0 & 0          & a'     & c'             & 0
+            \end{array}
+            \sim
+            \begin{array}{||cccc|c||}
+                1 & b' & b  & b b' & 1                      \\
+                0 & 1  & 0  & b    & \frac{-a'}{c' - a' b'} \\
+                0 & 0  & 1  & b'   & \frac{-a}{c - ab}      \\
+                0 & 0  & a' & c'   & 0
+            \end{array}
+            \sim \\ \sim\ &
+            \begin{array}{||cccc|c||}
+                1 & b' & b & b b'       & 1                      \\
+                0 & 1  & 0 & b          & \frac{-a'}{c' - a' b'} \\
+                0 & 0  & 1 & b'         & \frac{-a}{c - ab}      \\
+                0 & 0  & 0 & c' - a' b' & a a' (c - ab) ^ {-1}
+            \end{array}
+            \sim
+            \begin{array}{||cccc|c||}
+                1 & b' & b & b b' & 1                      \\
+                0 & 1  & 0 & b    & \frac{-a'}{c' - a' b'} \\
+                0 & 0  & 1 & b'   & \frac{-a}{c - ab}      \\
+                0 & 0  & 0 & 1    & \frac{a a'}{(c - ab)(c' - a' b')}
+            \end{array}
+        \end{split}
+        \end{equation}
+        
+        Заметим, что ранг матрицы системы равен рангу расширенной матрицы системы, а значит,
+        по теореме Кронекера-Капелли система уравнений (\ref{eq:slae}) совместна. Отсюда следует,
+        что найдутся такие $C_j$, $j \in \{1, ..., 4\}$, что выполнено равенство (\ref{eq:mm-equality}),
+        а значит $mm'$ выражается линейной комбинацией $\alpha_j$, $j \in \{1, ..., 4\}$.
+        
+    \item 
+\end{enumerate}
+
 \pagebreak
 \mysection{Приложение А. Исходный код для задачи 3.3}
 
