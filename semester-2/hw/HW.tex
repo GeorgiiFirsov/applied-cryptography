@@ -681,7 +681,35 @@
         что найдутся такие $C_j$, $j \in \{1, ..., 4\}$, что выполнено равенство (\ref{eq:mm-equality}),
         а значит $mm'$ выражается линейной комбинацией $\alpha_j$, $j \in \{1, ..., 4\}$.
         
-    \item 
+    \item Для восстановления открытого текста будем использовать свойство билинейности спаривания $e$.
+        Сперва заметим, что (вновь используем аддитивную нотацию):
+        \begin{equation}
+        \begin{split}
+            w_1 ^ {c c'} & = e\left((m + r a) g, (m' + r' a') h\right) ^ {c c'} = 
+                e\left((m c + r a c) g, (m' c' + r' a' c') h\right) \\
+            w_4 ^ {a a'} & = e\left((m b + r c) g, (m' b' + r' c') h\right) ^ {a a'} =
+                e\left((m a b + r a c) g, (m' a' b' + r' a' c') h\right)
+        \end{split}
+        \label{eq:raised-pairings}
+        \end{equation}
+        
+        При этом в силу того, что $e(a, b) = e(a, b) ^ {(-1) (-1)} = e(-a, -b)$, верно следующее:
+        \begin{equation}
+            w_4 ^ {a a'} = e\left(-(m a b + r a c) g, -(m' a' b' + r' a' c') h\right)
+        \label{eq:switched-sign}
+        \end{equation}
+        
+        Вновь воспользуемся свойством билинейности $e$, а также (\ref{eq:raised-pairings}) и 
+        (\ref{eq:switched-sign}):
+        \begin{equation}
+        \begin{split}
+            w_1 ^ {c c'} w_4 ^ {a a'} = e\left((m (c - a b) g, m' (c' - a' b') h\right) =
+                e(g, h) ^ {m m' (c - a b)(c' - a' b')},
+        \end{split}
+        \end{equation}
+        где $e(g, h)$ --- генератор группы $\mathbb{G}_T$.
+        
+        Так как $m$ и $m'$ лежат в малых интервалах, то можно перебором их произведение и найти.
 \end{enumerate}
 
 \pagebreak
