@@ -1,5 +1,6 @@
-# Applied-Cryptography
-Applied cryptography course labs (defensive part) and homeworks. National Research Nuclear University MEPhI, Spring 2022
+# applied-cryptography
+
+Applied cryptography course labs (defensive part) and homeworks. National Research Nuclear University MEPhI, Spring 2022 - Fall 2023.
 
 ## Semester 1
 
