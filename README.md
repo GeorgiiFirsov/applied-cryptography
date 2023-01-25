@@ -1,3 +1,6 @@
+> **Warning**
+> This repository is a public archive for successors
+
 # applied-cryptography
 
 Applied cryptography course labs (defensive part) and homeworks. National Research Nuclear University MEPhI, Spring 2022 - Fall 2023.
